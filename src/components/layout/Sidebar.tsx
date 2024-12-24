@@ -1,58 +1,58 @@
 import { Layout, Menu } from "antd";
-import { Outlet } from "react-router-dom";
 import { adminPaths } from "../../routes/admin.routes";
 import sidebarItemsGenerator from "../../uitls/sidebarItemsGenerator";
-const { Header, Content, Footer, Sider } = Layout;
+import { facultyPaths } from "../../routes/faculty.routes";
+import { studentPaths } from "../../routes/student.routes";
+
+const { Sider } = Layout;
+
+const userRole = {
+  ADMIN: "admin",
+  FACULTY: "faculty",
+  STUDENT: "student",
+};
 
 const Sidebar = () => {
+  const role = "faculty";
+
+  let sidebarItems;
+
+  switch (role) {
+    case userRole.ADMIN:
+      sidebarItems = sidebarItemsGenerator(adminPaths, userRole.ADMIN);
+      break;
+    case userRole.FACULTY:
+      sidebarItems = sidebarItemsGenerator(facultyPaths, userRole.FACULTY);
+      break;
+    case userRole.STUDENT:
+      sidebarItems = sidebarItemsGenerator(studentPaths, userRole.STUDENT);
+      break;
+
+    default:
+      break;
+  }
+
   return (
-    <Layout style={{ height: "100vh" }}>
-      <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
+    <Sider breakpoint="lg" collapsedWidth="0">
+      <div
+        style={{
+          color: "white",
+
+          height: "4rem",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <div
-          style={{
-            color: "white",
-
-            height: "4rem",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <h1>PH Uni</h1>
-        </div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["4"]}
-          items={sidebarItemsGenerator(adminPaths, "admin")}
-        />
-      </Sider>
-      <Layout>
-        <Header style={{ padding: 0 }} />
-        <Content style={{ margin: "24px 16px 0" }}>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-            }}
-          >
-            <Outlet />
-          </div>
-        </Content>
-        <Footer style={{ textAlign: "center" }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer>
-      </Layout>
-    </Layout>
+        <h1>PH Uni</h1>
+      </div>
+      <Menu
+        theme="dark"
+        mode="inline"
+        defaultSelectedKeys={["4"]}
+        items={sidebarItems}
+      />
+    </Sider>
   );
 };
 
