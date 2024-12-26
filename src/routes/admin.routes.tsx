@@ -19,14 +19,19 @@ export const adminPaths = [
     name: "Academic Management",
     children: [
       {
+        name: "Create A. Semester",
+        path: "create-academic-semester",
+        element: <CreateAcademicSemeste />,
+      },
+      {
         name: "Academic Semester",
         path: "academic-semester",
         element: <AcademicSemester />,
       },
       {
-        name: "Academic Department",
-        path: "academic-department",
-        element: <AcademicDepartment />,
+        name: "Create A. Faculty",
+        path: "create-academic-faculty",
+        element: <CreateAcademicFaculty />,
       },
       {
         name: "Academic Faculty",
@@ -34,19 +39,14 @@ export const adminPaths = [
         element: <AcademicFaculty />,
       },
       {
-        name: "Create Academic Semester",
-        path: "create-academic-semester",
-        element: <CreateAcademicSemeste />,
-      },
-      {
-        name: "Create Academic Department",
+        name: "Create A. Department",
         path: "create-academic-department",
         element: <CreateAcademicDepartment />,
       },
       {
-        name: "Create Academic Faculty",
-        path: "create-academic-faculty",
-        element: <CreateAcademicFaculty />,
+        name: "Academic Department",
+        path: "academic-department",
+        element: <AcademicDepartment />,
       },
     ],
   },
