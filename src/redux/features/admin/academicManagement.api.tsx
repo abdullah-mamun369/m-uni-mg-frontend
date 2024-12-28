@@ -63,4 +63,5 @@ export const {
   useGetAllSemestersQuery,
   useAddAcademicSemesterMutation,
   useAddAcademicDepartmentMutation,
+  useAddAcademicFacultyMutation,
 } = auacademicSemesterApithApi;

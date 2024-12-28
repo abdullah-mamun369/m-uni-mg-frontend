@@ -7,13 +7,11 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { academicDepartmentSchema } from "../../../schemas/academicManagement.schema";
-import {
-  academicDepartmentsOptions,
-  academicFacultysOptions,
-} from "../../../constants/academicDepartment";
+import { academicDepartmentsOptions } from "../../../constants/academicDepartment";
 import { TAcademicDepartment } from "../../../types/academicManagement.type";
 import { TResponse } from "../../../types";
 import { useAddAcademicDepartmentMutation } from "../../../redux/features/admin/academicManagement.api";
+import { academicFacultysOptions } from "../../../constants/academicFaculty";
 
 const CreateAcademicDepartment = () => {
   const [addAcademicDepartment] = useAddAcademicDepartmentMutation();
