@@ -39,6 +39,15 @@ const auacademicSemesterApithApi = baseApi.injectEndpoints({
       }),
     }),
 
+    //Create Academic Faculty
+    addAcademicFaculty: builder.mutation({
+      query: (data) => ({
+        url: "/academic-faculties/create-academic-faculty",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
     //Create Academic Department
     addAcademicDepartment: builder.mutation({
       query: (data) => ({
