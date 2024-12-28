@@ -1,4 +1,5 @@
 export const academicFaculty = [
+  // "67703978c91f94db5bb6fcba",
   "Faculty of Science",
   "Faculty of Engineering",
   "Faculty of Business",
