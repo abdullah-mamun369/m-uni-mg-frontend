@@ -7,11 +7,11 @@ const gridStyle: React.CSSProperties = {
 };
 
 const AcademicFaculty = () => {
-  const { data } = useGetAcademicFacultiesQuery(undefined);
+  const { data: academicFacultyData } = useGetAcademicFacultiesQuery(undefined);
 
   return (
     <Card title="Name Of Academic Faculties">
-      {data?.data?.map((item) => (
+      {academicFacultyData?.data?.map((item) => (
         <Card.Grid style={gridStyle} key={item._id}>
           {item.name}
         </Card.Grid>
