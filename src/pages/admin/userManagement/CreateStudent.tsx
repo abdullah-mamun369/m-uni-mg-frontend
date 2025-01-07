@@ -5,6 +5,10 @@ import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import { bloodGroupOptions, genderOptions } from "../../../constants/global";
 import PHSelect from "../../../components/form/PHSelect";
 import PHDatePicker from "../../../components/form/PHDatePicker";
+import {
+  useGetAcademicDepartmentsQuery,
+  useGetAllSemestersQuery,
+} from "../../../redux/features/admin/academicManagement.api";
 
 const CreateStudent = () => {
   const studentDefaultValues = {
@@ -37,10 +41,25 @@ const CreateStudent = () => {
       contactNo: "777-888-9999",
       address: "789 Pine St, Villageton",
     },
-
-    admissionSemester: "676ae87316ed32d365e486d9",
-    academicDepartment: "677063bcb73a7dc4dd6d237f",
   };
+
+  // Semester options
+  const { data: sData, isLoading: sIsLoading } =
+    useGetAllSemestersQuery(undefined);
+
+  const semesterOptions = sData?.data?.map((item) => ({
+    value: item._id,
+    label: `${item.name} ${item.year}`,
+  }));
+
+  // Semester options
+  const { data: dData, isLoading: dIsLoading } =
+    useGetAcademicDepartmentsQuery(undefined);
+
+  const departmentOptions = dData?.data?.map((item) => ({
+    value: item._id,
+    label: item.name,
+  }));
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     // console.log(data);
@@ -202,10 +221,17 @@ const CreateStudent = () => {
           <Divider>Academic Info.</Divider>
           <Row gutter={8}>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHSelect name="admissionSemester" label="Admission Semester" />
+              <PHSelect
+                options={semesterOptions}
+                disabled={sIsLoading}
+                name="admissionSemester"
+                label="Admission Semester"
+              />
             </Col>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
               <PHSelect
+                options={departmentOptions}
+                disabled={dIsLoading}
                 name="academicDepartment"
                 label="Admission Department"
               />
