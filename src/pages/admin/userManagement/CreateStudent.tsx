@@ -4,7 +4,7 @@ import PHInput from "../../../components/form/PHInput";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 
 const CreateStudent = () => {
-  const onsubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     // console.log(data);
 
     const formData = new FormData();
@@ -16,7 +16,7 @@ const CreateStudent = () => {
     console.log(Object.fromEntries(formData));
   };
   return (
-    <PHForm onSubmit={onsubmit}>
+    <PHForm onSubmit={onSubmit}>
       <PHInput type="text" label="First Name" name="firstName" />
       <PHInput type="text" label="Middle Name" name="midName" />
       <PHInput type="text" label="Last Name" name="lastName" />
