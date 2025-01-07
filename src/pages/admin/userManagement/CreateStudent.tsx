@@ -52,9 +52,15 @@ const CreateStudent = () => {
     label: `${item.name} ${item.year}`,
   }));
 
-  // Semester options
+  // Departmentoptions
   const { data: dData, isLoading: dIsLoading } =
     useGetAcademicDepartmentsQuery(undefined);
+
+  // //When a data dependent on another data, we can use the following pattern, This works as a chain of promises
+  // const { data: dData, isLoading: dIsLoading } = useGetAcademicDepartmentsQuery(
+  //   undefined,
+  //   { skip: sIsLoading }
+  // );
 
   const departmentOptions = dData?.data?.map((item) => ({
     value: item._id,
@@ -62,13 +68,11 @@ const CreateStudent = () => {
   }));
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    // console.log(data);
+    console.log(data);
 
     const formData = new FormData();
 
-    for (let key in data) {
-      formData.append(key, data[key]);
-    }
+    formData.append("data", JSON.stringify(data));
 
     console.log(Object.fromEntries(formData));
   };
