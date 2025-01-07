@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Form } from "antd";
 import { ReactNode } from "react";
 import {
@@ -35,7 +36,7 @@ const PHForm = ({
 
   const methods = useForm(formConfig);
 
-  const submit = (data: FieldValues) => {
+  const submit: SubmitHandler<FieldValues> = (data) => {
     onSubmit(data);
     methods.reset();
   };
