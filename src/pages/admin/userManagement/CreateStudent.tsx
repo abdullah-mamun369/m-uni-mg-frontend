@@ -9,39 +9,44 @@ import {
   useGetAcademicDepartmentsQuery,
   useGetAllSemestersQuery,
 } from "../../../redux/features/admin/academicManagement.api";
+import { useAddStudentMutation } from "../../../redux/features/admin/userManagement.api";
+
+const studentDefaultValues = {
+  name: {
+    firstName: "I am ",
+    middleName: "Student",
+    lastName: "Number 1",
+  },
+  gender: "male",
+
+  bloodGroup: "A+",
+
+  contactNo: "1235678",
+  emergencyContactNo: "987-654-3210",
+  presentAddress: "123 Main St, Cityville",
+  permanentAddress: "456 Oak St, Townsville",
+
+  guardian: {
+    fatherName: "James Doe",
+    fatherOccupation: "Engineer",
+    fatherContactNo: "111-222-3333",
+    motherName: "Mary Doe",
+    motherOccupation: "Teacher",
+    motherContactNo: "444-555-6666",
+  },
+
+  localGuardian: {
+    name: "Alice Johnson",
+    occupation: "Doctor",
+    contactNo: "777-888-9999",
+    address: "789 Pine St, Villageton",
+  },
+};
 
 const CreateStudent = () => {
-  const studentDefaultValues = {
-    name: {
-      firstName: "I am ",
-      middleName: "Student",
-      lastName: "Number 1",
-    },
-    gender: "male",
-
-    bloodGroup: "A+",
-
-    contactNo: "1235678",
-    emergencyContactNo: "987-654-3210",
-    presentAddress: "123 Main St, Cityville",
-    permanentAddress: "456 Oak St, Townsville",
-
-    guardian: {
-      fatherName: "James Doe",
-      fatherOccupation: "Engineer",
-      fatherContactNo: "111-222-3333",
-      motherName: "Mary Doe",
-      motherOccupation: "Teacher",
-      motherContactNo: "444-555-6666",
-    },
-
-    localGuardian: {
-      name: "Alice Johnson",
-      occupation: "Doctor",
-      contactNo: "777-888-9999",
-      address: "789 Pine St, Villageton",
-    },
-  };
+  //Create a Student
+  const [addStudent, { data, error }] = useAddStudentMutation();
+  console.log({ data, error });
 
   // Semester options
   const { data: sData, isLoading: sIsLoading } =
@@ -56,7 +61,7 @@ const CreateStudent = () => {
   const { data: dData, isLoading: dIsLoading } =
     useGetAcademicDepartmentsQuery(undefined);
 
-  // //When a data dependent on another data, we can use the following pattern, This works as a chain of promises
+  // //When a data dependent on another data, we can use the following pattern, This works as a chain of promises    *************
   // const { data: dData, isLoading: dIsLoading } = useGetAcademicDepartmentsQuery(
   //   undefined,
   //   { skip: sIsLoading }
@@ -68,13 +73,20 @@ const CreateStudent = () => {
   }));
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+    // console.log(data);
+
+    const studentData = {
+      password: "student123",
+      student: data,
+    };
 
     const formData = new FormData();
 
-    formData.append("data", JSON.stringify(data));
+    formData.append("data", JSON.stringify(studentData));
 
     console.log(Object.fromEntries(formData));
+
+    addStudent(formData);
   };
   return (
     <Row justify="center">
@@ -224,7 +236,7 @@ const CreateStudent = () => {
           </Row>
           <Divider>Academic Info.</Divider>
           <Row gutter={8}>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+            <Col span={24} md={{ span: 8 }} lg={{ span: 8 }}>
               <PHSelect
                 options={semesterOptions}
                 disabled={sIsLoading}
@@ -232,7 +244,7 @@ const CreateStudent = () => {
                 label="Admission Semester"
               />
             </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+            <Col span={24} md={{ span: 8 }} lg={{ span: 8 }}>
               <PHSelect
                 options={departmentOptions}
                 disabled={dIsLoading}

@@ -28,9 +28,9 @@ const userManagementApi = baseApi.injectEndpoints({
     // }),
 
     //Create academic semester----------------------------------------------------------------
-    addAcademicSemester: builder.mutation({
+    addStudent: builder.mutation({
       query: (data) => ({
-        url: "/user/create-student",
+        url: "/users/create-student",
         method: "POST",
         body: data,
       }),
@@ -38,4 +38,4 @@ const userManagementApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useAddAcademicSemesterMutation } = userManagementApi;
+export const { useAddStudentMutation } = userManagementApi;
