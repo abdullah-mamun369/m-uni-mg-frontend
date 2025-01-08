@@ -73,21 +73,28 @@ const CreateStudent = () => {
   }));
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    // console.log(data);
+    const formData = new FormData();
+    formData.append("file", data.image);
+    console.log(`this is image ${data.image}`);
+
+    delete data.image;
 
     const studentData = {
       password: "student123",
       student: data,
     };
 
-    const formData = new FormData();
+    console.log(studentData);
 
     formData.append("data", JSON.stringify(studentData));
 
-    console.log(Object.fromEntries(formData));
-
     addStudent(formData);
+
+    //! This is for development
+    //! Just for checking
+    console.log(Object.fromEntries(formData));
   };
+
   return (
     <Row justify="center">
       <Col span={24}>
