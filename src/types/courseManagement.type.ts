@@ -1,28 +1,23 @@
-export type TAcademicSemester = {
+import { TAcademicSemester } from ".";
+
+export type TSemester = {
   _id: string;
-  name: string;
-  year: string;
-  code: string;
-  startMonth: string;
-  endMonth: string;
+  academicSemester: TAcademicSemester;
+  status: string;
+  startDate: string;
+  endDate: string;
+  minCredit: number;
+  maxCredit: number;
   createdAt: string;
   updatedAt: string;
-  __v: number;
 };
 
-export type TAcademicFaculty = {
+export type TCourse = {
   _id: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-};
-
-export type TAcademicDepartment = {
-  _id: string;
-  name: string;
-  academicFaculty: TAcademicFaculty;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+  title: string;
+  prefix: string;
+  code: number;
+  credits: number;
+  preRequisiteCourses: { course: string | null; isDeleted: boolean }[];
+  isDeleted: boolean;
 };
