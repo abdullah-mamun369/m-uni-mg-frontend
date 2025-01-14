@@ -7,9 +7,8 @@ import {
   TableProps,
 } from "antd";
 import { useState } from "react";
-import { TQueryParam } from "../../../types";
+import { TQueryParam, TStudent } from "../../../types";
 import { useGetAllStudentsQuery } from "../../../redux/features/admin/userManagement.api";
-import { TStudent } from "../../../types/userManagement.type";
 import { Link } from "react-router-dom";
 
 export type TTableData = Pick<
