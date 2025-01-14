@@ -3,7 +3,10 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import PHForm from "../../../components/form/PHForm";
 import { Button, Col, Flex } from "antd";
 import PHSelect from "../../../components/form/PHSelect";
-import { semesterOptions } from "../../../constants/semester";
+import {
+  semesterOptions,
+  semesterStatusOptions,
+} from "../../../constants/semester";
 import { monthOptions } from "../../../constants/global";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { academicSemesterSchema } from "../../../schemas/academicManagement.schema";
@@ -11,6 +14,8 @@ import { toast } from "sonner";
 import { TResponse } from "../../../types/global";
 import { TAcademicSemester } from "../../../types/academicManagement.type";
 import { useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
+import PHDatePicker from "../../../components/form/PHDatePicker";
+import PHInput from "../../../components/form/PHInput";
 
 const SemesterRegistration = () => {
   const { data: academicSemester } = useGetAllSemestersQuery([
@@ -23,15 +28,7 @@ const SemesterRegistration = () => {
   }));
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const toastId = toast.loading("Creating semester");
-
-    //1st way to get the name
-    const name = semesterOptions.find(
-      (item) => item.value === data.name
-    )?.label;
-
-    //2nd way to get the name
-    // const name = semesterOptions[Number(data?.name) - 1].label;
+    const toastId = toast.loading("Creating...");
 
     const semesterData = {
       name,
@@ -58,21 +55,22 @@ const SemesterRegistration = () => {
   return (
     <Flex justify="center" align="center">
       <Col span={6}>
-        <PHForm
-          onSubmit={onSubmit}
-          resolver={zodResolver(academicSemesterSchema)}
-        >
+        <PHForm onSubmit={onSubmit}>
           <PHSelect
-            label="Name"
-            name="name"
+            label="Academic Semester"
+            name="academicSemester"
             options={academicSemesterOptions}
           />
+
           <PHSelect
-            label="Start Month"
-            name="startMonth"
-            options={monthOptions}
+            name="status"
+            label="Status"
+            options={semesterStatusOptions}
           />
-          <PHSelect label="End Month" name="endMonth" options={monthOptions} />
+          <PHDatePicker name="startDate" label="Start Date" />
+          <PHDatePicker name="endDate" label="End Date" />
+          <PHInput type="text" name="minCredit" label="Min Credit" />
+          <PHInput type="text" name="maxCredit" label="Max Credit" />
 
           <Button htmlType="submit">Submit</Button>
         </PHForm>
