@@ -20,6 +20,9 @@ const courseManagementApi = baseApi.injectEndpoints({
           params: params,
         };
       },
+
+      providesTags: ["semester"],
+
       transformResponse: (response: TResponseRedux<TSemester[]>) => {
         return {
           data: response.data,
@@ -35,6 +38,7 @@ const courseManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["semester"],
     }),
 
     //Update registered semester----------------------------------------------------------------
