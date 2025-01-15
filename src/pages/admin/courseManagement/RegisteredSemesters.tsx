@@ -1,46 +1,26 @@
-import {
-  Button,
-  Pagination,
-  Space,
-  Table,
-  TableColumnsType,
-  TableProps,
-} from "antd";
-import { useState } from "react";
-import { TQueryParam, TStudent } from "../../../types";
-import { useGetAllStudentsQuery } from "../../../redux/features/admin/userManagement.api";
-import { Link } from "react-router-dom";
+import { Button, Dropdown, Table, TableColumnsType, Tag } from "antd";
+import { TAcademicSemester } from "../../../types/academicManagement.type";
+import { useGetAllRegisteredSemestersQuery } from "../../../redux/features/admin/courseManagement.api";
+import moment from "moment";
 
 export type TTableData = Pick<
-  TStudent,
-  "fullName" | "id" | "email" | "contactNo"
+  TAcademicSemester,
+  "name" | "year" | "startMonth" | "endMonth"
 >;
 
 const RegisteredSemesters = () => {
-  const [params, setParams] = useState<TQueryParam[]>([]);
-  const [page, setPage] = useState(1);
+  // const [params, setParams] = useState<TQueryParam[] | undefined>(undefined);
 
-  const {
-    data: studentData,
-    isLoading,
-    isFetching,
-  } = useGetAllStudentsQuery([
-    { name: "page", value: page },
-    { name: "sort", value: "id" },
-    ...params,
-  ]);
+  const { data: semesterData, isFetching } =
+    useGetAllRegisteredSemestersQuery(undefined);
 
-  console.log({ isLoading, isFetching });
-
-  const metaData = studentData?.meta;
-
-  const tableData = studentData?.data?.map(
-    ({ _id, fullName, id, email, contactNo }) => ({
+  const tableData = semesterData?.data?.map(
+    ({ _id, academicSemester, startDate, endDate, status }) => ({
       key: _id,
-      fullName,
-      id,
-      email,
-      contactNo,
+      name: `${academicSemester.name} ${academicSemester.year}`,
+      startDate: moment(new Date(startDate)).format("MMMM"),
+      endDate: moment(new Date(endDate)).format("MMMM"),
+      status,
     })
   );
 
@@ -48,82 +28,64 @@ const RegisteredSemesters = () => {
     {
       title: "Name",
       key: "name",
-      dataIndex: "fullName",
-    },
-
-    {
-      title: "Roll No.",
-      key: "id",
-      dataIndex: "id",
+      dataIndex: "name",
     },
     {
-      title: "Email",
-      key: "email",
-      dataIndex: "email",
+      title: "Status",
+      key: "status",
+      dataIndex: "status",
     },
     {
-      title: "Contact No.",
-      key: "contactNo",
-      dataIndex: "contactNo",
+      title: "Start Date",
+      key: "startDate",
+      dataIndex: "startDate",
+    },
+    {
+      title: "End Date",
+      key: "endDate",
+      dataIndex: "endDate",
     },
     {
       title: "Action",
       key: "x",
-      render: (item) => {
+      render: () => {
         return (
-          <Space>
-            <Link to={`/admin/student-data/${item.key}`}>
-              <Button>Details</Button>
-            </Link>
+          <div>
             <Button>Update</Button>
-            <Button>Block</Button>
-          </Space>
+          </div>
         );
       },
-      width: "1%",
     },
   ];
 
-  const onChange: TableProps<TTableData>["onChange"] = (
-    _pagination,
-    filters,
-    _sorter,
-    extra
-  ) => {
-    if (extra.action === "filter") {
-      const queryParams: TQueryParam[] = [];
+  // const onChange: TableProps<TTableData>["onChange"] = (
+  //   _pagination,
+  //   filters,
+  //   _sorter,
+  //   extra
+  // ) => {
+  //   if (extra.action === "filter") {
+  //     const queryParams: TQueryParam[] = [];
 
-      filters.name?.forEach((item) =>
-        queryParams.push({ name: "name", value: item })
-      );
+  //     filters.name?.forEach((item) =>
+  //       queryParams.push({ name: "name", value: item })
+  //     );
 
-      filters.year?.forEach((item) =>
-        queryParams.push({ name: "year", value: item })
-      );
+  //     filters.year?.forEach((item) =>
+  //       queryParams.push({ name: "year", value: item })
+  //     );
 
-      setParams(queryParams);
-    }
-  };
+  //     setParams(queryParams);
+  //   }
+  // };
 
   return (
-    <>
-      <Table
-        loading={isFetching}
-        columns={columns}
-        dataSource={tableData}
-        onChange={onChange}
-        pagination={false}
-        style={{ marginBottom: "20px" }}
-      />
-
-      <Pagination
-        current={page}
-        onChange={(value) => setPage(value)}
-        pageSize={metaData?.limit}
-        total={metaData?.total}
-        align="end"
-      />
-    </>
+    <Table
+      loading={isFetching}
+      columns={columns}
+      dataSource={tableData}
+      // onChange={onChange}
+    />
   );
 };
 
