@@ -1,6 +1,4 @@
-// import { TQueryParam, TResponseRedux, TStudent } from "../../../types";
-import { TQueryParam, TResponseRedux } from "../../../types";
-import { TSemester } from "../../../types/courseManagement.type";
+import { TQueryParam, TResponseRedux, TSemester } from "../../../types";
 import { baseApi } from "../../api/baseApi";
 
 const courseManagementApi = baseApi.injectEndpoints({
